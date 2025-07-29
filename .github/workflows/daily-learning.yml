@@ -1,0 +1,70 @@
+name: '📚 Daily Learning Automation'
+
+on:
+  schedule:
+    # Runs at 9 AM UTC every day
+    - cron: '0 9 * * *'
+  workflow_dispatch: # Manual trigger
+
+jobs:
+  daily-learning:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: 📝 Generate Daily Learning Entry
+      run: |
+        # Create learning directory if not exists
+        mkdir -p docs/learning
+        
+        # Generate daily entry
+        DATE=$(date +"%Y-%m-%d")
+        LEARNING_FILE="docs/learning/daily-log.md"
+        
+        # Create or update learning log
+        if [ ! -f "$LEARNING_FILE" ]; then
+          echo "# 📚 Daily Learning Log" > "$LEARNING_FILE"
+          echo "" >> "$LEARNING_FILE"
+        fi
+        
+        # Add daily entry
+        echo "## $DATE" >> "$LEARNING_FILE"
+        echo "" >> "$LEARNING_FILE"
+        echo "### 🎯 Focus Areas:" >> "$LEARNING_FILE"
+        echo "- Kubernetes and container orchestration" >> "$LEARNING_FILE"
+        echo "- Infrastructure as Code with Terraform" >> "$LEARNING_FILE"
+        echo "- DevOps automation and best practices" >> "$LEARNING_FILE"
+        echo "" >> "$LEARNING_FILE"
+        echo "### 📖 Resources Explored:" >> "$LEARNING_FILE"
+        echo "- [ ] CNCF documentation updates" >> "$LEARNING_FILE"
+        echo "- [ ] Latest DevOps trends and tools" >> "$LEARNING_FILE"
+        echo "- [ ] Open source contributions research" >> "$LEARNING_FILE"
+        echo "" >> "$LEARNING_FILE"
+        echo "### 💡 Key Insights:" >> "$LEARNING_FILE"
+        echo "_Daily reflection on learning progress and insights gained._" >> "$LEARNING_FILE"
+        echo "" >> "$LEARNING_FILE"
+        echo "---" >> "$LEARNING_FILE"
+        echo "" >> "$LEARNING_FILE"
+        
+    - name: 📊 Update README with Latest Activity
+      run: |
+        # Update README with current focus
+        sed -i "s/Last updated: .*/Last updated: $(date +"%Y-%m-%d")/g" README.md || true
+        
+    - name: 🚀 Commit and Push Changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "Learning Bot"
+        
+        git add docs/learning/daily-log.md README.md
+        
+        if git diff --staged --quiet; then
+          echo "No changes to commit"
+        else
+          git commit -m "docs: daily learning progress - $(date +"%Y-%m-%d")"
+          git push
+        fi

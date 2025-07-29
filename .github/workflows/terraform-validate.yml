@@ -1,0 +1,52 @@
+name: '🏗️ Terraform Validation'
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths: ['terraform/**']
+  pull_request:
+    branches: [ main ]
+    paths: ['terraform/**']
+
+jobs:
+  terraform:
+    name: 'Terraform Validate'
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout
+      uses: actions/checkout@v4
+      
+    - name: 🔧 Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: '1.6.0'
+        
+    - name: 🎨 Terraform Format Check
+      run: terraform fmt -check -recursive
+      
+    - name: 🏗️ Terraform Init & Validate
+      run: |
+        find terraform -name "*.tf" -exec dirname {} \; | sort -u | while read dir; do
+          echo "🔍 Validating $dir"
+          cd "$dir"
+          terraform init -backend=false
+          terraform validate
+          cd - > /dev/null
+        done
+        
+    - name: 🛡️ Security Scan with tfsec
+      uses: aquasecurity/tfsec-action@v1.0.3
+      with:
+        soft_fail: true
+
+    - name: 💰 Cost Estimation
+      uses: infracost/actions/setup@v2
+      with:
+        api-key: ${{ secrets.INFRACOST_API_KEY }}
+        
+    - name: 📊 Generate Infracost Report
+      run: |
+        infracost breakdown --path=terraform/aws/foundation \
+                           --format=json \
+                           --out-file=infracost.json || true
