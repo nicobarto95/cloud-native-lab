@@ -1,0 +1,29 @@
+# Makefile
+.PHONY: help setup validate deploy clean
+
+help: ## Show this help
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+
+setup: ## Setup development environment
+	@echo "🚀 Setting up development environment..."
+	@./scripts/setup.sh
+
+validate: ## Validate all Terraform configurations
+	@echo "✅ Validating Terraform configurations..."
+	@find terraform -name "*.tf" -exec dirname {} \; | sort -u | xargs -I {} sh -c 'cd {} && terraform init -backend=false && terraform validate'
+
+deploy-aws: ## Deploy AWS infrastructure
+	@echo "☁️ Deploying AWS infrastructure..."
+	@cd terraform/aws/foundation && terraform init && terraform apply
+
+deploy-k8s: ## Deploy Kubernetes applications  
+	@echo "🚀 Deploying Kubernetes applications..."
+	@kubectl apply -k kubernetes/manifests/
+
+show-endpoints: ## Show all service endpoints
+	@echo "🌐 Service endpoints:"
+	@kubectl get ingress -A
+
+clean: ## Clean up all resources
+	@echo "🧹 Cleaning up resources..."
+	@./scripts/cleanup.sh
