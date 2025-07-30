@@ -19,3 +19,8 @@ make deploy-all
 
 # Access services
 make show-endpoints
+
+```md
+<!--START_SECTION:waka-->
+<!--END_SECTION:waka-->
+```
