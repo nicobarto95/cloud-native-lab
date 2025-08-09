@@ -23,7 +23,19 @@ jobs:
         terraform_version: '1.6.0'
         
     - name: 🎨 Terraform Format Check
-      run: terraform fmt -check -recursive
+      run: |
+        echo "🔍 Verifica configurazione Terraform fmt..."
+        if ! terraform fmt -check -recursive -v; then
+          echo "❌ Problemi di formattazione rilevati"
+          git status --porcelain
+          exit 1
+        fi
+        
+        echo "✅ Formattazione OK"
+        echo "📋 Stato del repository:"
+        git status --porcelain
+        echo "🗂️ Lista dei file .tf trovati:"
+        find . -name "*.tf" -print
       
     - name: 🏗️ Terraform Init & Validate
       run: |
@@ -39,6 +51,7 @@ jobs:
       uses: aquasecurity/tfsec-action@v1.0.3
       with:
         soft_fail: true
+        github_token: ${{ secrets.GH_TOKEN }}
 
     - name: 💰 Cost Estimation
       uses: infracost/actions/setup@v2
