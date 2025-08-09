@@ -48,21 +48,21 @@ output "infrastructure_summary" {
   description = "Complete infrastructure summary"
   value = {
     # Basic info
-    project     = "${var.project_name}-${var.environment}"
-    region      = var.aws_region
-    created_at  = timestamp()
-    
+    project    = "${var.project_name}-${var.environment}"
+    region     = var.aws_region
+    created_at = timestamp()
+
     # Network
-    vpc_id      = module.vpc.vpc_id
-    vpc_cidr    = module.vpc.vpc_cidr_block
-    subnets     = length(module.vpc.public_subnets) + length(module.vpc.private_subnets)
-    
+    vpc_id   = module.vpc.vpc_id
+    vpc_cidr = module.vpc.vpc_cidr_block
+    subnets  = length(module.vpc.public_subnets) + length(module.vpc.private_subnets)
+
     # Features enabled
-    nat_gateway     = var.enable_nat_gateway
-    vpn_gateway     = var.enable_vpn_gateway
-    flow_logs       = var.enable_flow_logs
-    elastic_ips     = var.create_elastic_ip
-    
+    nat_gateway = var.enable_nat_gateway
+    vpn_gateway = var.enable_vpn_gateway
+    flow_logs   = var.enable_flow_logs
+    elastic_ips = var.create_elastic_ip
+
   }
 }
 
@@ -73,12 +73,12 @@ output "infrastructure_summary" {
 output "deployment_validation" {
   description = "Deployment validation status"
   value = {
-    vpc_created        = module.vpc.vpc_id != null
-    subnets_created    = length(module.vpc.public_subnets) > 0
-    
+    vpc_created     = module.vpc.vpc_id != null
+    subnets_created = length(module.vpc.public_subnets) > 0
+
     deployment_status = (
       module.vpc.vpc_id != null &&
       length(module.vpc.public_subnets) > 0
-      ) ? "✅ SUCCESS" : "❌ INCOMPLETE"
+    ) ? "✅ SUCCESS" : "❌ INCOMPLETE"
   }
 }
