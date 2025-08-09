@@ -1,0 +1,301 @@
+# 🚀 Cloud Native Lab - Git Ignore Configuration
+# Comprehensive ignore rules for Terraform and DevOps projects
+
+# ==============================================================================
+# TERRAFORM FILES
+# ==============================================================================
+
+# Terraform state files (NEVER commit these!)
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+
+# Terraform variable files containing sensitive data
+terraform.tfvars
+terraform.tfvars.json
+*.auto.tfvars
+*.auto.tfvars.json
+
+# Terraform plan files
+*.tfplan
+*.tfplan.*
+tfplan
+
+# Terraform CLI configuration files
+.terraformrc
+terraform.rc
+
+# Terraform provider cache
+.terraform/
+.terraform.lock.hcl*
+
+# Override files (local customizations)
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Terraform crash log files
+crash.log
+crash.*.log
+
+# ==============================================================================
+# AWS CREDENTIALS (SECURITY CRITICAL!)
+# ==============================================================================
+
+# AWS credentials
+.aws/
+aws-credentials.json
+credentials.json
+
+# SSH private keys (public keys are OK to commit)
+*.pem
+*.key
+id_rsa
+id_ecdsa
+id_ed25519
+*_rsa
+*_ecdsa
+*_ed25519
+
+# ==============================================================================
+# DEVELOPMENT TOOLS
+# ==============================================================================
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Vim
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+[._]s[a-rt-v][a-z]
+[._]ss[a-gi-z]
+[._]sw[a-p]
+
+# Emacs
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# Sublime Text
+*.sublime-workspace
+*.sublime-project
+
+# ==============================================================================
+# OPERATING SYSTEM FILES
+# ==============================================================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.tmp
+*.temp
+desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# ==============================================================================
+# PROJECT SPECIFIC
+# ==============================================================================
+
+# Backup files
+backups/
+*.backup
+backup-*
+
+# Logs
+logs/
+*.log
+log-*
+
+# Temporary files
+tmp/
+temp/
+.tmp/
+
+# Documentation builds
+docs/build/
+site/
+
+# Test files
+test-results/
+coverage/
+
+# ==============================================================================
+# CLOUD NATIVE TOOLS
+# ==============================================================================
+
+# Kubernetes
+.kube/config
+kubeconfig
+*.kubeconfig
+
+# Docker
+.docker/
+docker-compose.override.yml
+
+# Helm
+.helm/
+
+# Ansible
+*.retry
+.ansible/
+
+# ==============================================================================
+# CI/CD FILES
+# ==============================================================================
+
+# GitHub Actions artifacts
+.github/workflows/artifacts/
+
+# Jenkins
+.jenkins/
+
+# GitLab CI
+.gitlab-ci-local/
+
+# ==============================================================================
+# DEPENDENCY MANAGERS
+# ==============================================================================
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+.env
+.venv
+
+# Go
+vendor/
+
+# ==============================================================================
+# SENSITIVE CONFIGURATION
+# ==============================================================================
+
+# Environment files
+.env
+.env.*
+!.env.example
+!.env.template
+
+# Local configuration
+local.conf
+local.json
+local.yaml
+local.yml
+
+# API keys and secrets
+secrets.json
+secrets.yaml
+secrets.yml
+api-keys.json
+*.secret
+
+# Certificate files (unless specifically needed)
+*.crt
+*.cert
+*.p12
+*.pfx
+
+# ==============================================================================
+# PROJECT ARTIFACTS
+# ==============================================================================
+
+# Build artifacts
+build/
+dist/
+out/
+target/
+
+# Archive files
+*.zip
+*.tar.gz
+*.tar
+*.rar
+*.7z
+
+# Generated files
+generated/
+auto-generated/
+
+# ==============================================================================
+# TERRAFORM SPECIFIC PATTERNS
+# ==============================================================================
+
+# Terraform documentation (if auto-generated)
+terraform-docs/
+
+# Terraform security scan results
+.tfsec/
+tfsec-results.*
+
+# Terraform cost estimation
+cost-estimate.*
+infracost-report.*
+
+# Terraform graph outputs
+terraform-graph.*
+dependency-graph.*
+
+# ==============================================================================
+# EXAMPLES TO KEEP
+# ==============================================================================
+
+# Keep example and template files
+!*.example
+!*.template  
+!*-template.*
+!example-*
+!template-*
+
+# Keep documentation examples
+!docs/examples/
+!examples/
+
+# Keep README files
+!README*
+!readme*
