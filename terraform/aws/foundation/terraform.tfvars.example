@@ -1,0 +1,113 @@
+# terraform/aws/foundation/terraform.tfvars.example
+# 🎯 Configuration Template for Cloud Native Lab
+# Copy this file to terraform.tfvars and customize your values
+
+# ==============================================================================
+# PROJECT CONFIGURATION
+# ==============================================================================
+
+project_name = "cloud-native-lab"
+environment  = "dev"
+owner       = "your-name@email.com"  # 📝 Change this to your email
+
+# ==============================================================================
+# AWS CONFIGURATION
+# ==============================================================================
+
+aws_region = "eu-west-1"  # 🌍 Ireland (good for EU users)
+# aws_region = "us-east-1"  # 🌍 Alternative: Virginia (cheaper for US users)
+
+availability_zones = [
+  "eu-west-1a",
+  "eu-west-1b"
+  # "eu-west-1c"  # Add third AZ if needed
+]
+
+# ==============================================================================
+# NETWORK CONFIGURATION
+# ==============================================================================
+
+vpc_cidr = "10.0.0.0/16"  # 🌐 Supports ~65k IPs
+
+public_subnet_cidrs = [
+  "10.0.1.0/24",   # eu-west-1a public  (~254 IPs)
+  "10.0.2.0/24"    # eu-west-1b public  (~254 IPs)
+]
+
+private_subnet_cidrs = [
+  "10.0.11.0/24",  # eu-west-1a private (~254 IPs)
+  "10.0.12.0/24"   # eu-west-1b private (~254 IPs)
+]
+
+# 🔒 SSH Access Control
+# ⚠️  SECURITY: Replace 0.0.0.0/0 with your actual IP!
+allowed_ssh_ips = [
+  "0.0.0.0/0"  # 📝 Change to your IP: "YOUR_IP/32"
+]
+# To find your IP: curl ifconfig.me
+
+# ==============================================================================
+# COST OPTIMIZATION SETTINGS (💰 Free Tier Focused)
+# ==============================================================================
+
+# Network features (disabled for cost optimization)
+enable_nat_gateway   = false  # 💰 Saves ~$32/month
+enable_vpn_gateway   = false  # 💰 Saves ~$36/month
+enable_flow_logs     = false  # 💰 Saves ~$10/month
+
+# DNS features (free)
+enable_dns_hostnames = true
+enable_dns_support   = true
+
+# ==============================================================================
+# COMPUTE CONFIGURATION
+# ==============================================================================
+
+# Instance settings
+instance_type        = "t2.micro"      # ✅ Free tier eligible
+instance_count       = 1               # 📊 Single instance for demo
+create_demo_instance = true
+associate_public_ip  = true
+
+# SSH Key Configuration
+create_key_pair = true
+
+# 🔑 SSH PUBLIC KEY
+# Generate with: ssh-keygen -t rsa -b 4096 -C "your-email@example.com"
+# Then copy the content of ~/.ssh/id_rsa.pub
+ssh_public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC... your-email@example.com"
+# 📝 Replace with YOUR actual public key!
+
+# Alternative: Use existing key pair
+# create_key_pair   = false
+# existing_key_name = "my-existing-key"
+
+# ==============================================================================
+# STORAGE CONFIGURATION
+# ==============================================================================
+
+root_volume_type = "gp3"    # ✅ Latest generation, cost-effective
+root_volume_size = 20       # 📦 20GB (within free tier limits)
+encrypt_volumes  = true     # 🔒 Security best practice
+
+# ==============================================================================
+# OPTIONAL FEATURES (Disabled for Cost Optimization)
+# ==============================================================================
+
+# Monitoring (costs extra)
+detailed_monitoring        = false  # 💰 Saves ~$2/month per instance
+enable_cloudwatch_logs     = false  # 💰 Saves ~$5/month
+enable_cloudwatch_metrics  = false  # 💰 Saves ~$3/month
+
+# Management
+termination_protection = false      # 🧹 Easy cleanup for demo
+create_elastic_ip      = false      # 💰 Saves ~$3.65/month
+
+# ==============================================================================
+# CONFIGURATION EXAMPLES FOR DIFFERENT SCENARIOS
+# ==============================================================================
+
+# 💸 ULTRA COST-OPTIMIZED (< €2/month):
+# - instance_type = "t2.micro"
+# - instance_count = 1
+# - enable_
