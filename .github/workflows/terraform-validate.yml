@@ -39,11 +39,11 @@ jobs:
       
     - name: 🏗️ Terraform Init & Validate
       run: |
-        find terraform -name "*.tf" -exec dirname {} \; | sort -u | while read dir; do
+        find terraform -name "*.tf" -printf "%h\n" | sort -u | while read dir; do
           echo "🔍 Validating $dir"
           cd "$dir"
           terraform init -backend=false
-          terraform validate
+          terraform validate -no-color || exit 1
           cd - > /dev/null
         done
         
