@@ -2,7 +2,7 @@ name: '🏗️ Terraform Validation'
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ main, develop, feature/* ]
     paths: ['terraform/**']
   pull_request:
     branches: [ main ]
