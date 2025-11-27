@@ -48,11 +48,10 @@ jobs:
           cd - > /dev/null
         done
         
-    - name: 🛡️ Security Scan with tfsec
-      uses: aquasecurity/tfsec-action@v1.0.3
-      with:
-        soft_fail: true
-        github_token: ${{ secrets.GH_TOKEN }}
+    - name: 🛡️ Install & Run tfsec
+      run: |
+        curl -s https://raw.githubusercontent.com/aquasecurity/tfsec/master/scripts/install_linux.sh | bash
+        tfsec terraform --soft-fail
 
     - name: 💰 Cost Estimation
       uses: infracost/actions/setup@v2
